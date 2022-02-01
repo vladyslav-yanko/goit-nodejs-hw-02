@@ -2,8 +2,10 @@ const { Schema, model } = require('mongoose');
 const Joi = require('joi');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const { string } = require('joi');
 
 const { SECRET_KEY } = process.env;
+
 const userSchema = Schema({
     email: {
         type: String,
@@ -22,7 +24,19 @@ const userSchema = Schema({
     token: {
         type: String,
         default: null
-    }
+    },
+    avatarURL: {
+        type: String,
+        default:''
+    },
+    verify: {
+        type: Boolean,
+        default:false
+    },
+    verificationToken: {
+        type: String,
+        required:[true,"Verify token is required"]
+    },
 }, { versionKey: false, timestamps: true });
 
 userSchema.methods.setPassword = function (password) {
@@ -42,7 +56,8 @@ userSchema.methods.createToken = function () {
 
 const joiSchema = Joi.object({
     email: Joi.string().required(),
-    password:Joi.string().required()
+    password: Joi.string().required(),
+    avatarURL:Joi.string()
 })
 
 const User = model('user', userSchema);
