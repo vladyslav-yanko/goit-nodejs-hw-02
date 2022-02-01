@@ -1,5 +1,5 @@
 const { User } = require('../../models');
-const { Unauthorized,BadRequest } = require('http-errors');
+const { Unauthorized } = require('http-errors');
 
 const login = async (req, res) => {
     try {
@@ -8,9 +8,7 @@ const login = async (req, res) => {
         if (!user || !user.comparePassword(password)) {
             throw new Unauthorized('Email or password is wrong')
         }
-        if (!user.verify) {
-            throw new BadRequest("Email not verify")
-        }
+
         const { _id } = user;
         const token = user.createToken();
         await User.findByIdAndUpdate(_id, { token });

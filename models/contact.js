@@ -7,14 +7,10 @@ const contactSchema = ({
         required: [true, 'Set name for contact']
     },
     email: {
-        type: String,
-        required: true,
-        unique:true
+        type: String
     },
     phone: {
-        type: String,
-        required: true,
-        unique:true
+        type: String
     },
     favorite: {
         type: Boolean,
@@ -24,7 +20,7 @@ const contactSchema = ({
         type: SchemaTypes.ObjectId,
         ref:'user'
     }
-}, { versionKey: false ,timestamps:true});
+}, { versionKey: false });
 
 const joiSchema = Joi.object({
     name: Joi.string().min(1).required(),
